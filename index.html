@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LingLingEvolution the game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="ui-container">
+    <!-- Lebensleiste für LingLing -->
+    <div id="health-container">
+        <div id="health-bar"></div>
+        <span id="health-text">100%</span>
+    </div>
+    <div id="stats">Level: <span id="player-level">1</span> | Kills: <span id="player-xp">0</span></div>
+    <div id="loot-log"></div>
+</div>
+
+<!-- Game Over Bildschirm (neu) -->
+<div id="game-over-screen" class="hidden">
+    <h1>LingLing ist gefallen!</h1>
+    <p>Du hast es bis Welle <span id="final-wave">1</span> geschafft.</p>
+    <button id="btn-restart" class="upgrade-btn" style="margin-top: 20px;">Erneut versuchen 🔄</button>
+</div>
+    <!-- Das UI-Overlay für Loot-Benachrichtigungen und Stats -->
+    <div id="ui-container">
+        <div id="stats">Level: <span id="player-level">1</span> | XP: <span id="player-xp">0</span></div>
+        <div id="loot-log"></div>
+    </div>
+    <div id="upgrade-screen" class="hidden">
+    <h2>Welle geschafft! Wähle eine Evolution:</h2>
+    <div class="upgrade-options">
+        <button id="btn-dmg" class="upgrade-btn">💥 +25% Schaden (Gürtel)</button>
+        <button id="btn-speed" class="upgrade-btn">⚡ +15% Angriffsgeschwindigkeit</button>
+        <button id="btn-mspeed" class="upgrade-btn">👟 +10% Lauftempo (LingLing)</button>
+    </div>
+    </div>
+    <!-- Wellen-Statistiken -->
+<div id="stats-screen" class="hidden">
+    <h2>Welle abgeschlossen!</h2>
+    <div class="stats-box">
+        <p>Erledigte Monster: <span id="stat-kills">0</span></p>
+        <p>Benötigte Zeit: <span id="stat-time">0</span> Sekunden</p>
+    </div>
+    <button id="btn-next-wave" class="upgrade-btn" style="margin-top: 20px;">Nächste Welle starten ⚔️</button>
+</div>
+
+    <!-- Das Spielfeld -->
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- Module laden -->
+    <script type="module" src="src/game.js"></script>
+</body>
+</html>

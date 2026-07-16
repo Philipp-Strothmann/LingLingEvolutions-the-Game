@@ -19,6 +19,7 @@ export class Player {
 
         this.health = 100;
         this.maxHealth = 100;
+        this.shield = 0;
     }
 
 // In src/player.js die update-Methode ersetzen:
@@ -203,11 +204,45 @@ draw(ctx) {
     ctx.closePath();
 
     ctx.restore();
+
+    // 3. Schwebende Lebensleiste und Schildleiste über dem Spieler
+    const barWidth = 40;
+    const barHeight = 5;
+    const barX = this.x - barWidth / 2;
+    const hpBarY = this.y - this.radius - 20; 
+    const shieldBarY = hpBarY - 7; 
+
+    // Schildleiste (oben)
+    // Hintergrund (Grau)
+    ctx.fillStyle = '#444';
+    ctx.fillRect(barX, shieldBarY, barWidth, barHeight);
+    // Vordergrund (Blau, skaliert nach Schild-Prozent)
+    const shieldPercent = Math.max(0, Math.min(100, this.shield || 0)) / 100;
+    ctx.fillStyle = '#0066ff';
+    ctx.fillRect(barX, shieldBarY, barWidth * shieldPercent, barHeight);
+
+    // Lebensleiste (unten)
+    // Hintergrund (Grau)
+    ctx.fillStyle = '#444';
+    ctx.fillRect(barX, hpBarY, barWidth, barHeight);
+    // Vordergrund (Rot, skaliert nach HP-Prozent)
+    const hpPercent = Math.max(0, this.health / this.maxHealth);
+    ctx.fillStyle = '#ff3333'; // Rot
+    ctx.fillRect(barX, hpBarY, barWidth * hpPercent, barHeight);
 }
 
     takeDamage(amount) {
-    this.health -= amount;
-    if (this.health < 0) this.health = 0;
+        // Schild absorbiert/reduziert den Schaden
+        const mitigation = (this.shield || 0) / 100;
+        const reducedDamage = amount * (1 - mitigation);
+        
+        this.health -= reducedDamage;
+        if (this.health < 0) this.health = 0;
+        
+        // Jedes Mal, wenn der Spieler Schaden erleidet, wird der Schild um 10% verbraucht (eine Trankladung)
+        if (this.shield > 0) {
+            this.shield = Math.max(0, this.shield - 10);
+        }
     }
 
 resetHealth() {

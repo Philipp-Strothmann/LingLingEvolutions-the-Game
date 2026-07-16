@@ -16,6 +16,7 @@ let monstersSpawned = 0;
 let waveStartTime = 0;
 let spawnInterval = 400; 
 let lastSpawnTime = 0;
+let potions = [];
 
 function resizeCanvas() {
     if (!canvas) return;
@@ -32,8 +33,13 @@ const player = new Player(canvas.width / 2, canvas.height / 2);
 // Falls in der player.js Methoden oder Variablen fehlen, werden sie hier dynamisch gepatched.
 if (typeof player.takeDamage !== 'function') {
     player.takeDamage = function(amount) {
-        this.health -= amount;
+        const mitigation = (this.shield || 0) / 100;
+        const reducedDamage = amount * (1 - mitigation);
+        this.health -= reducedDamage;
         if (this.health < 0) this.health = 0;
+        if (this.shield > 0) {
+            this.shield = Math.max(0, this.shield - 10);
+        }
     };
 }
 if (typeof player.resetHealth !== 'function') {
@@ -44,6 +50,9 @@ if (typeof player.resetHealth !== 'function') {
 if (player.health === undefined) {
     player.health = 100;
     player.maxHealth = 100;
+}
+if (player.shield === undefined) {
+    player.shield = 0;
 }
 if (player.pendingUpgrades === undefined) {
     player.pendingUpgrades = 0;
@@ -105,6 +114,7 @@ bindClick('btn-restart', restartGame);
 
 function startWave() {
     monsters = [];
+    potions = [];
     monstersSpawned = 0; 
     player.monstersKilledThisWave = 0;
     
@@ -157,6 +167,8 @@ function restartGame() {
         player.weapons[0].cooldown = 400;
     }
     player.speed = 4;
+    player.shield = 0;
+    potions = [];
     startWave();
 }
 
@@ -167,6 +179,18 @@ function startNextWave() {
 }
 
 function onMonsterDefeated(index) {
+    const defeatedMonster = monsters[index];
+    
+    // Mit einer Wahrscheinlichkeit von 1:100 einen blauen Trank fallen lassen
+    if (defeatedMonster && Math.random() < 0.01) {
+        potions.push({
+            x: defeatedMonster.x,
+            y: defeatedMonster.y,
+            radius: 12
+        });
+        logToConsole("Ein blauer Trank wurde fallen gelassen!", "upgrade-msg");
+    }
+
     monsters.splice(index, 1);
     player.monstersKilledTotal++;
     player.monstersKilledThisWave++;
@@ -206,6 +230,49 @@ function applyUpgrade(type) {
     }
 }
 
+// Funktion zum Zeichnen eines wunderschönen blauen Zaubertranks
+function drawPotion(ctx, potion) {
+    ctx.save();
+    ctx.translate(potion.x, potion.y);
+
+    // 1. Flaschenhals (Glas)
+    ctx.strokeStyle = '#cccccc';
+    ctx.lineWidth = 1.5;
+    ctx.fillStyle = '#3399ff'; // Blaue Flüssigkeit im Hals
+    ctx.beginPath();
+    ctx.rect(-3, -11, 6, 7);
+    ctx.stroke();
+    ctx.fill();
+    ctx.closePath();
+
+    // 2. Korken
+    ctx.fillStyle = '#8b5a2b'; // Holzbraun
+    ctx.beginPath();
+    ctx.rect(-4, -14, 8, 3);
+    ctx.fill();
+    ctx.closePath();
+
+    // 3. Runder Flaschenkörper (Glaskolben)
+    ctx.beginPath();
+    ctx.arc(0, 1, potion.radius - 2, 0, Math.PI * 2);
+    ctx.fillStyle = '#0055ff'; // Kräftiges Blau
+    ctx.shadowBlur = 8;
+    ctx.shadowColor = '#00bbff';
+    ctx.fill();
+    ctx.stroke();
+    ctx.closePath();
+    ctx.shadowBlur = 0; // Schatten zurücksetzen
+
+    // 4. Lichtreflex auf dem Glas (für 3D-Look)
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+    ctx.beginPath();
+    ctx.arc(-3, -2, 2.5, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.closePath();
+
+    ctx.restore();
+}
+
 // PERMANENTER GAME LOOP
 function gameLoop() {
     requestAnimationFrame(gameLoop);
@@ -231,6 +298,21 @@ function gameLoop() {
     // Zeichnen & Physik
     if (map && player) {
         map.draw(ctx, player);
+
+        // Tränke verarbeiten (zeichnen & Einsammeln prüfen)
+        for (let i = potions.length - 1; i >= 0; i--) {
+            const potion = potions[i];
+            drawPotion(ctx, potion);
+
+            // Kollision mit Spieler prüfen
+            const dist = Math.hypot(player.x - potion.x, player.y - potion.y);
+            if (dist <= player.radius + potion.radius) {
+                player.shield = Math.min(100, (player.shield || 0) + 10);
+                logToConsole("Blauer Trank eingesammelt! Schild +10% Schadensminimierung.", "upgrade-msg");
+                potions.splice(i, 1);
+            }
+        }
+
         player.update(keys, map);
         player.draw(ctx);
     }

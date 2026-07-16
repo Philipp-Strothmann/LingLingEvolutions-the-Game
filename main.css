@@ -143,3 +143,25 @@ body, html {
 .hidden {
     display: none !important;
 }
+
+/* Blendet Elemente mit der Klasse 'hidden' komplett aus */
+.hidden {
+    display: none !important;
+}
+
+/* Positioniert die Overlays als zentrierte Karten über dem Spiel */
+.overlay-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(20, 20, 20, 0.95); /* Dunkler, leicht transparenter Hintergrund */
+    border: 2px solid #ff3333; /* Roter Rahmen passend zur Apokalypse */
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    color: #ffffff;
+    z-index: 100; /* Stellt sicher, dass das Overlay über dem Canvas liegt */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    min-width: 300px;
+}

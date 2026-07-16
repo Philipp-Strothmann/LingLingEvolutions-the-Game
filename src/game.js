@@ -319,5 +319,18 @@ function setupUpgradeButtons() {
     if (btnMspeed) btnMspeed.addEventListener('click', startNextWave);
 }
 
-// Führe das Setup einmal beim Start aus
-setupUpgradeButtons();
+// Wartet, bis alle HTML-Elemente vollständig geladen und geroutet sind
+window.addEventListener('DOMContentLoaded', () => {
+    // Canvas-Größe initial bestimmen
+    resizeCanvas();
+    
+    // Upgrade-Buttons registrieren
+    setupUpgradeButtons();
+    
+    // Spiel starten
+    startWave();
+    gameLoop();
+});
+
+// Debug-Schnittstelle global bereitstellen
+window.debugForceNextWave = startNextWave;

@@ -272,9 +272,6 @@ function gameLoop() {
     }
 }
 
-
-startWave();
-gameLoop();
 window.debugForceNextWave = startNextWave;
 
 // Überprüft kontinuierlich (oder bei jedem Kill), ob die Welle vorbei ist

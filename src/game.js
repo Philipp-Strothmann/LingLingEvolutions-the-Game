@@ -324,6 +324,9 @@ window.addEventListener('DOMContentLoaded', () => {
     // Upgrade-Buttons registrieren
     setupUpgradeButtons();
 
+    // Erste Welle und Game Loop starten
+    startWave();
+    gameLoop();
 });
 
 // Debug-Schnittstelle global bereitstellen

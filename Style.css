@@ -138,3 +138,8 @@ body, html {
     text-shadow: 0 0 10px #ff3333;
     margin-bottom: 20px;
 }
+
+/* Kritische Utility-Klasse zum Ausblenden von UI-Elementen */
+.hidden {
+    display: none !important;
+}

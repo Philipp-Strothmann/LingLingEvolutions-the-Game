@@ -27,10 +27,10 @@ update(keys, map) {
     let moveX = 0;
     let moveY = 0;
 
-    if (keys['w'] || keys['ArrowUp']) moveY -= 1;
-    if (keys['s'] || keys['ArrowDown']) moveY += 1;
-    if (keys['a'] || keys['ArrowLeft']) moveX -= 1;
-    if (keys['d'] || keys['ArrowRight']) moveX += 1;
+    if (keys['w'] || keys['arrowup'] || keys['ArrowUp']) moveY -= 1;
+    if (keys['s'] || keys['arrowdown'] || keys['ArrowDown']) moveY += 1;
+    if (keys['a'] || keys['arrowleft'] || keys['ArrowLeft']) moveX -= 1;
+    if (keys['d'] || keys['arrowright'] || keys['ArrowRight']) moveX += 1;
 
     if (moveX !== 0 && moveY !== 0) {
         moveX *= 0.7071;

@@ -1,0 +1,167 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #1a1a1a;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#gameCanvas {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+}
+
+#ui-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #00ffcc;
+    text-shadow: 0 0 5px #00ffcc;
+    pointer-events: none; /* Klicks gehen durch das UI aufs Spiel */
+    z-index: 10;
+}
+
+#stats {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+#loot-log {
+    font-size: 1rem;
+    color: #ff00ff;
+    max-height: 200px;
+    overflow: hidden;
+}
+.hidden {
+    display: none !important;
+}
+
+#upgrade-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(20, 20, 20, 0.95);
+    border: 3px solid #ff00ff;
+    box-shadow: 0 0 20px #ff00ff;
+    padding: 40px;
+    text-align: center;
+    color: #fff;
+    z-index: 100;
+    border-radius: 10px;
+}
+
+#upgrade-screen h2 {
+    color: #00ffcc;
+    margin-bottom: 30px;
+    text-shadow: 0 0 5px #00ffcc;
+}
+
+.upgrade-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.upgrade-btn {
+    background: #2a2a2a;
+    border: 2px solid #00ffcc;
+    color: #00ffcc;
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.upgrade-btn:hover {
+    background: #00ffcc;
+    color: #000;
+    box-shadow: 0 0 15px #00ffcc;
+}
+
+#health-container {
+    width: 250px;
+    height: 25px;
+    background-color: #333;
+    border: 2px solid #00ffcc;
+    position: relative;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
+}
+
+#health-bar {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #00ffcc, #00aa88);
+    transition: width 0.1s ease-in-out;
+}
+
+#health-text {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    color: #fff;
+    font-size: 0.9rem;
+}
+
+#game-over-screen {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(40, 5, 5, 0.95);
+    border: 3px solid #ff3333;
+    box-shadow: 0 0 20px #ff3333;
+    padding: 40px;
+    text-align: center;
+    color: #fff;
+    z-index: 110;
+    border-radius: 10px;
+}
+
+#game-over-screen h1 {
+    color: #ff3333;
+    text-shadow: 0 0 10px #ff3333;
+    margin-bottom: 20px;
+}
+
+/* Kritische Utility-Klasse zum Ausblenden von UI-Elementen */
+.hidden {
+    display: none !important;
+}
+
+/* Blendet Elemente mit der Klasse 'hidden' komplett aus */
+.hidden {
+    display: none !important;
+}
+
+/* Positioniert die Overlays als zentrierte Karten über dem Spiel */
+.overlay-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(20, 20, 20, 0.95); /* Dunkler, leicht transparenter Hintergrund */
+    border: 2px solid #ff3333; /* Roter Rahmen passend zur Apokalypse */
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    color: #ffffff;
+    z-index: 100; /* Stellt sicher, dass das Overlay über dem Canvas liegt */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    min-width: 300px;
+}

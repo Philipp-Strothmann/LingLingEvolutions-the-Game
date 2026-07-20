@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LingLings Apocalypse</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <div id="ui-container">
+        <div id="hud-status-bar">
+            <div class="hud-item">
+                <span class="hud-label">HP:</span>
+                <div id="health-container">
+                    <div id="health-bar"></div>
+                    <span id="health-text">100%</span>
+                </div>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label">LEVEL:</span>
+                <span id="player-level" class="hud-value">1</span>
+            </div>
+            <div class="hud-item">
+                <span class="hud-label">FORTSCHRITT:</span>
+                <span id="player-xp" class="hud-value">0%</span>
+            </div>
+        </div>
+
+        <div id="dark-console">
+            <div class="console-line system-msg">> System initialisiert. Bereit für Welle 1...</div>
+        </div>
+    </div>
+
+    <div id="upgrade-screen" class="overlay-card hidden">
+        <h2>Welle geschafft! Wähle eine Evolution:</h2>
+        <div class="upgrade-buttons">
+            <button id="btn-dmg" class="upgrade-btn">💥 +25% Schaden (Gürtel)</button>
+            <button id="btn-speed" class="upgrade-btn">⚡ +15% Angriffsgeschwindigkeit</button>
+            <button id="btn-mspeed" class="upgrade-btn">👟 +10% Lauftempo (LingLing)</button>
+        </div>
+    </div>
+
+    <div id="game-over-screen" class="overlay-card hidden">
+        <h1 class="critical-text">LingLing ist gefallen!</h1>
+        <p>Du hast es bis Welle <span id="final-wave">1</span> geschafft.</p>
+        <button id="btn-restart" class="upgrade-btn" style="margin-top: 20px;">Erneut versuchen 🔄</button>
+    </div>
+
+    <div id="stats-screen" class="overlay-card hidden">
+        <h2>Welle abgeschlossen!</h2>
+        <div class="stats-summary">
+            <div>Erledigte Monster: <span id="stat-kills">0</span></div>
+            <div>Benötigte Zeit: <span id="stat-time">0</span> Sekunden</div>
+        </div>
+        <button id="btn-next-wave" class="upgrade-btn" style="margin-top: 20px;">Nächste Welle starten ⚔️</button>
+    </div>
+
+    <script type="module" src="src/game.js"></script>
+</body>
+</html>

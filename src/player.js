@@ -247,5 +247,4 @@ draw(ctx) {
 
 resetHealth() {
     this.health = this.maxHealth;
-}
-}
+}}

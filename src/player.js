@@ -20,6 +20,8 @@ export class Player {
         this.health = 100;
         this.maxHealth = 100;
         this.shield = 0;
+        this.name = '';
+        this.isOliver = false;
     }
 
 // In src/player.js die update-Methode ersetzen:
@@ -113,9 +115,39 @@ draw(ctx) {
     ctx.save();
     ctx.translate(this.x, this.y);
 
+    if (this.isOliver) {
+        // Goldene Krone zeichnen
+        ctx.fillStyle = '#ffd700'; // Gold
+        ctx.strokeStyle = '#222';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(-10, -25);
+        ctx.lineTo(10, -25);
+        ctx.lineTo(13, -37);
+        ctx.lineTo(6, -30);
+        ctx.lineTo(0, -41);
+        ctx.lineTo(-6, -30);
+        ctx.lineTo(-13, -37);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        // Rote Kronjuwelen
+        ctx.fillStyle = '#ff3333';
+        ctx.beginPath();
+        ctx.arc(0, -41, 1.8, 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.fillStyle = '#3399ff';
+        ctx.beginPath();
+        ctx.arc(-13, -37, 1.2, 0, Math.PI * 2);
+        ctx.arc(13, -37, 1.2, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
     // Linkes spitze Ohr
     ctx.beginPath();
-    ctx.fillStyle = '#ffe033'; // Pokémon Gelb
+    ctx.fillStyle = this.isOliver ? '#ffd700' : '#ffe033'; // Pokémon Gelb / Gold
     ctx.strokeStyle = '#333';
     ctx.lineWidth = 2;
     ctx.moveTo(-15, -10);
@@ -136,7 +168,7 @@ draw(ctx) {
 
     // Rechtes spitze Ohr
     ctx.beginPath();
-    ctx.fillStyle = '#ffe033';
+    ctx.fillStyle = this.isOliver ? '#ffd700' : '#ffe033'; // Pokémon Gelb / Gold
     ctx.strokeStyle = '#333';
     ctx.lineWidth = 2;
     ctx.moveTo(5, -18);
@@ -155,12 +187,18 @@ draw(ctx) {
     ctx.fill();
     ctx.closePath();
 
-    // Runder, gelber Hauptkörper
+    // Runder, gelber/goldener Hauptkörper
     ctx.beginPath();
     ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
-    ctx.fillStyle = '#ffe033'; // Pokémon Gelb
-    ctx.shadowBlur = 10;
-    ctx.shadowColor = '#ffe033';
+    if (this.isOliver) {
+        ctx.fillStyle = '#ffd700'; // Gold
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = '#ffd700';
+    } else {
+        ctx.fillStyle = '#ffe033'; // Pokémon Gelb
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = '#ffe033';
+    }
     ctx.fill();
     ctx.stroke();
     ctx.closePath();
@@ -211,6 +249,18 @@ draw(ctx) {
     const barX = this.x - barWidth / 2;
     const hpBarY = this.y - this.radius - 20; 
     const shieldBarY = hpBarY - 7; 
+
+    // Spielername über der Leiste anzeigen
+    if (this.name) {
+        ctx.save();
+        ctx.fillStyle = this.isOliver ? '#ffd700' : '#ffffff';
+        ctx.font = 'bold 10px "Courier New", Courier, monospace';
+        ctx.textAlign = 'center';
+        ctx.shadowColor = '#000000';
+        ctx.shadowBlur = 4;
+        ctx.fillText(this.name, this.x, shieldBarY - 6);
+        ctx.restore();
+    }
 
     // Schildleiste (oben)
     // Hintergrund (Grau)

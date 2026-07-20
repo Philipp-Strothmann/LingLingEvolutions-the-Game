@@ -34,6 +34,69 @@
         </div>
     </div>
 
+    <div id="start-menu-screen" class="overlay-card symmetrical-menu">
+        <h1 class="menu-title">LingLings Apocalypse</h1>
+        <div class="menu-layout">
+            <div class="menu-column-left">
+                <button id="btn-start" class="menu-btn main-action-btn">Start Game ⚔️</button>
+                <div class="name-input-container">
+                    <label for="player-name-input" class="input-label">Player Name:</label>
+                    <input type="text" id="player-name-input" class="menu-input" placeholder="Choose your name..." value="Player" maxlength="12">
+                </div>
+            </div>
+            <div class="menu-column-right">
+                <button id="btn-settings" class="menu-btn">Settings ⚙️</button>
+                <button id="btn-oliver" class="menu-btn oliver-glow">Oliver 👑</button>
+                <button id="btn-help" class="menu-btn">Help ❓</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Overlay -->
+    <div id="settings-overlay" class="overlay-card hidden sub-menu-card">
+        <h2>Einstellungen</h2>
+        <div class="settings-content">
+            <div class="setting-row">
+                <label for="setting-difficulty">Schwierigkeit:</label>
+                <select id="setting-difficulty" class="menu-input">
+                    <option value="normal">Normal</option>
+                    <option value="hard">Schwer (Mehr Monster)</option>
+                    <option value="impossible">Apokalyptisch</option>
+                </select>
+            </div>
+            <div class="setting-row">
+                <label for="setting-sound">Musik & Sound:</label>
+                <input type="checkbox" id="setting-sound" checked>
+            </div>
+        </div>
+        <button id="btn-settings-close" class="upgrade-btn close-btn">Fertig</button>
+    </div>
+
+    <!-- Help Overlay -->
+    <div id="help-overlay" class="overlay-card hidden sub-menu-card">
+        <h2>Spielanleitung</h2>
+        <div class="help-content">
+            <p><strong>Steuerung:</strong> <span>WASD</span> oder <span>Pfeiltasten</span> zum Bewegen.</p>
+            <p><strong>Angriff:</strong> <span>Leertaste (Space)</span> zum Schlagen mit dem Gürtel.</p>
+            <p><strong>Zusatz:</strong> Blaue Tränke geben dir Schilde zum Blocken von Schaden.</p>
+        </div>
+        <button id="btn-help-close" class="upgrade-btn close-btn">Verstanden</button>
+    </div>
+
+    <!-- Oliver Overlay -->
+    <div id="oliver-overlay" class="overlay-card hidden sub-menu-card">
+        <h2>Oliver Modus 👑</h2>
+        <div class="oliver-content">
+            <p>Der legendäre Oliver-Modus wurde freigeschaltet!</p>
+            <ul>
+                <li>✨ Golden leuchtender LingLing</li>
+                <li>🛡️ Start mit +30% Schild</li>
+                <li>⚡ +20% erhöhtes Lauftempo</li>
+            </ul>
+        </div>
+        <button id="btn-oliver-close" class="upgrade-btn close-btn highlight-btn">Oliver aktivieren</button>
+    </div>
+
     <div id="upgrade-screen" class="overlay-card hidden">
         <h2>Welle geschafft! Wähle eine Evolution:</h2>
         <div class="upgrade-buttons">
@@ -44,9 +107,9 @@
     </div>
 
     <div id="game-over-screen" class="overlay-card hidden">
-        <h1 class="critical-text">LingLing ist gefallen!</h1>
-        <p>Du hast es bis Welle <span id="final-wave">1</span> geschafft.</p>
-        <button id="btn-restart" class="upgrade-btn" style="margin-top: 20px;">Erneut versuchen 🔄</button>
+        <h1 class="critical-text" id="game-over-title">Player has fallen!</h1>
+        <p>You made it to wave <span id="final-wave">1</span>.</p>
+        <button id="btn-menu" class="upgrade-btn" style="margin-top: 20px;">Menu 🏠</button>
     </div>
 
     <div id="stats-screen" class="overlay-card hidden">

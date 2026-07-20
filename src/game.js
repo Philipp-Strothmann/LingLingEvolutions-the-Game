@@ -8,7 +8,10 @@ const ctx = canvas.getContext('2d');
 const upgradeScreen = document.getElementById('upgrade-screen');
 const statsScreen = document.getElementById('stats-screen');
 const gameOverScreen = document.getElementById('game-over-screen');
-let isPaused = false;
+let isPaused = true; // Start paused to show the menu
+
+let isOliverMode = false;
+let playerName = '';
 
 let currentWave = 1;
 let monstersToSpawn = 100;
@@ -110,7 +113,6 @@ bindClick('btn-dmg', () => applyUpgrade('dmg'));
 bindClick('btn-speed', () => applyUpgrade('speed'));
 bindClick('btn-mspeed', () => applyUpgrade('mspeed'));
 bindClick('btn-next-wave', startNextWave);
-bindClick('btn-restart', restartGame);
 
 function startWave() {
     monsters = [];
@@ -154,22 +156,63 @@ function triggerGameOver() {
     isPaused = true;
     const lblFinal = document.getElementById('final-wave');
     if (lblFinal) lblFinal.innerText = currentWave;
+    
+    // Spielername dynamisch im Game-Over-Titel setzen
+    const lblTitle = document.getElementById('game-over-title');
+    if (lblTitle) {
+        lblTitle.innerText = `${player.name} has fallen!`;
+    }
+    
     if (gameOverScreen) gameOverScreen.classList.remove('hidden');
 }
 
-function restartGame() {
+function resetGameState() {
+    isPaused = true;
     currentWave = 1;
     monstersToSpawn = 100;
+    monstersSpawned = 0;
     player.monstersKilledTotal = 0;
+    player.monstersKilledThisWave = 0;
+    
     if (player.weapons && player.weapons[0]) {
         player.weapons[0].level = 1;
         player.weapons[0].damage = 20;
         player.weapons[0].cooldown = 400;
     }
+    
+    // Reset Oliver Mode
+    isOliverMode = false;
+    const btnOliver = document.getElementById('btn-oliver');
+    if (btnOliver) {
+        btnOliver.classList.remove('highlight-btn');
+        btnOliver.innerText = 'Oliver 👑';
+    }
+    
+    // Reset Player Name Input default to "Player"
+    const nameInput = document.getElementById('player-name-input');
+    if (nameInput) {
+        nameInput.value = 'Player';
+    }
+    playerName = 'Player';
+    
     player.speed = 4;
     player.shield = 0;
+    player.health = 100;
+    player.maxHealth = 100;
+    player.name = 'Player';
+    player.isOliver = false;
+    player.activeEffects = [];
+    
+    monsters = [];
     potions = [];
-    startWave();
+    
+    updateHealthUI();
+    
+    // XP & Level UI zurücksetzen
+    const elXp = document.getElementById('player-xp');
+    const elLevel = document.getElementById('player-level');
+    if (elXp) elXp.innerText = `0%`;
+    if (elLevel) elLevel.innerText = `1`;
 }
 
 function startNextWave() {
@@ -398,6 +441,128 @@ function setupUpgradeButtons() {
     if (btnMspeed) btnMspeed.addEventListener('click', startNextWave);
 }
 
+function setupStartMenu() {
+    const btnStart = document.getElementById('btn-start');
+    const btnSettings = document.getElementById('btn-settings');
+    const btnOliver = document.getElementById('btn-oliver');
+    const btnHelp = document.getElementById('btn-help');
+    
+    const settingsOverlay = document.getElementById('settings-overlay');
+    const helpOverlay = document.getElementById('help-overlay');
+    const oliverOverlay = document.getElementById('oliver-overlay');
+    const startMenuScreen = document.getElementById('start-menu-screen');
+    
+    const btnSettingsClose = document.getElementById('btn-settings-close');
+    const btnHelpClose = document.getElementById('btn-help-close');
+    const btnOliverClose = document.getElementById('btn-oliver-close');
+    
+    const btnMenu = document.getElementById('btn-menu');
+
+    if (btnStart) {
+        btnStart.addEventListener('click', () => {
+            // Spielername auslesen
+            const nameInput = document.getElementById('player-name-input');
+            playerName = nameInput ? nameInput.value.trim() : 'Player';
+            
+            // Wenn Oliver-Modus aktiv ist, heisst der Spieler zwingend "Oliver"
+            if (isOliverMode) {
+                player.name = 'Oliver';
+            } else {
+                player.name = playerName || 'Player';
+            }
+            
+            // Oliver Modus anwenden
+            player.isOliver = isOliverMode;
+            if (isOliverMode) {
+                player.speed = 4.8; // +20% speed
+                player.shield = 30; // +30% starting shield
+                logToConsole("Oliver Modus AKTIV! Krone aufgesetzt und Werte erhöht.", "upgrade-msg");
+            } else {
+                player.speed = 4;
+                player.shield = 0;
+            }
+            
+            // Schwierigkeit anwenden
+            const diffSelect = document.getElementById('setting-difficulty');
+            if (diffSelect) {
+                const diff = diffSelect.value;
+                if (diff === 'hard') {
+                    monstersToSpawn = 150; // 50% mehr Monster
+                    spawnInterval = 300; // schnelleres Spawnen
+                } else if (diff === 'impossible') {
+                    monstersToSpawn = 200; // 100% mehr Monster
+                    spawnInterval = 200; // extremes Spawnen
+                    player.speed = isOliverMode ? 5.5 : 4.5;
+                } else {
+                    monstersToSpawn = 100;
+                    spawnInterval = 400;
+                }
+            }
+
+            // Start screen ausblenden und Welle starten
+            startMenuScreen.classList.add('hidden');
+            startWave();
+        });
+    }
+
+    if (btnSettings) {
+        btnSettings.addEventListener('click', () => {
+            settingsOverlay.classList.remove('hidden');
+        });
+    }
+    if (btnSettingsClose) {
+        btnSettingsClose.addEventListener('click', () => {
+            settingsOverlay.classList.add('hidden');
+        });
+    }
+
+    if (btnHelp) {
+        btnHelp.addEventListener('click', () => {
+            helpOverlay.classList.remove('hidden');
+        });
+    }
+    if (btnHelpClose) {
+        btnHelpClose.addEventListener('click', () => {
+            helpOverlay.classList.add('hidden');
+        });
+    }
+
+    if (btnOliver) {
+        btnOliver.addEventListener('click', () => {
+            oliverOverlay.classList.remove('hidden');
+        });
+    }
+    if (btnOliverClose) {
+        btnOliverClose.addEventListener('click', () => {
+            isOliverMode = true;
+            btnOliver.classList.add('highlight-btn');
+            btnOliver.innerText = 'Oliver Mode: ON 👑';
+            
+            // Namen automatisch auf Oliver setzen
+            const nameInput = document.getElementById('player-name-input');
+            if (nameInput) {
+                nameInput.value = 'Oliver';
+            }
+            
+            oliverOverlay.classList.add('hidden');
+            logToConsole("Oliver Modus freigeschaltet!", "system-msg");
+        });
+    }
+
+    if (btnMenu) {
+        btnMenu.addEventListener('click', () => {
+            // Blende Game Over Screen aus
+            document.getElementById('game-over-screen').classList.add('hidden');
+            
+            // Blende Startmenü ein
+            startMenuScreen.classList.remove('hidden');
+            
+            // Setze den Spielstatus zurück
+            resetGameState();
+        });
+    }
+}
+
 // Wartet, bis alle HTML-Elemente vollständig geladen und geroutet sind
 window.addEventListener('DOMContentLoaded', () => {
     // Canvas-Größe initial bestimmen
@@ -406,8 +571,10 @@ window.addEventListener('DOMContentLoaded', () => {
     // Upgrade-Buttons registrieren
     setupUpgradeButtons();
 
-    // Erste Welle und Game Loop starten
-    startWave();
+    // Startmenü initialisieren
+    setupStartMenu();
+
+    // Game Loop starten (läuft pausiert im Hintergrund)
     gameLoop();
 });
 

@@ -165,3 +165,222 @@ body, html {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
     min-width: 300px;
 }
+
+/* Symmetrisches Startmenü (nimmt 50% der Canvas-Größe ein) */
+.symmetrical-menu {
+    width: 50vw;
+    height: 50vh;
+    min-width: 450px;
+    min-height: 350px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border: 3px solid #00ffcc;
+    box-shadow: 0 0 25px rgba(0, 255, 204, 0.5);
+    background: rgba(15, 15, 15, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 20px 40px;
+}
+
+.menu-title {
+    font-size: 2.2rem;
+    color: #00ffcc;
+    text-shadow: 0 0 10px #00ffcc;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.menu-layout {
+    display: flex;
+    width: 100%;
+    height: calc(100% - 60px);
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+
+.menu-column-left {
+    flex: 1.2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    height: 100%;
+}
+
+.menu-column-right {
+    flex: 0.8;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    height: 100%;
+}
+
+.menu-btn {
+    background: #2a2a2a;
+    border: 2px solid #00ffcc;
+    color: #00ffcc;
+    padding: 12px 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: inherit;
+    border-radius: 6px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    width: 100%;
+}
+
+.menu-btn:hover {
+    background: #00ffcc;
+    color: #000000;
+    box-shadow: 0 0 15px #00ffcc;
+    transform: translateY(-2px);
+}
+
+.main-action-btn {
+    background: #00ffcc;
+    color: #000;
+    font-size: 1.3rem;
+    padding: 16px 20px;
+    border-color: #ffffff;
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.6);
+}
+
+.main-action-btn:hover {
+    background: #ffffff;
+    color: #000;
+    border-color: #00ffcc;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.8);
+}
+
+.oliver-glow {
+    border-color: #ffe033;
+    color: #ffe033;
+    box-shadow: 0 0 8px rgba(255, 224, 51, 0.3);
+}
+
+.oliver-glow:hover {
+    background: #ffe033;
+    color: #000;
+    border-color: #ffffff;
+    box-shadow: 0 0 20px #ffe033;
+}
+
+.name-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
+}
+
+.input-label {
+    font-size: 0.9rem;
+    color: #00ffcc;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.menu-input {
+    width: 100%;
+    background: #151515;
+    border: 2px solid #00ffcc;
+    color: #ffffff;
+    padding: 12px;
+    font-size: 1.1rem;
+    font-family: inherit;
+    border-radius: 6px;
+    outline: none;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s;
+}
+
+.menu-input:focus {
+    border-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.5), inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.sub-menu-card {
+    width: 40vw;
+    max-width: 500px;
+    min-height: 250px;
+    border: 3px solid #ff3333;
+    box-shadow: 0 0 25px rgba(255, 51, 51, 0.5);
+    background: rgba(15, 10, 10, 0.98);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 25px;
+    border-radius: 10px;
+    z-index: 120;
+}
+
+.settings-content, .help-content, .oliver-content {
+    margin: 20px 0;
+    text-align: left;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.setting-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.setting-row select {
+    width: 60%;
+}
+
+.setting-row input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: #00ffcc;
+    cursor: pointer;
+}
+
+.help-content p {
+    margin-bottom: 12px;
+}
+
+.help-content span {
+    background: #2a2a2a;
+    border: 1px solid #00ffcc;
+    color: #00ffcc;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.oliver-content ul {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.oliver-content li {
+    margin-bottom: 8px;
+    list-style-type: square;
+    color: #ffe033;
+}
+
+.close-btn {
+    align-self: center;
+    margin-top: 10px !important;
+}
+
+.highlight-btn {
+    border-color: #ffe033 !important;
+    color: #ffe033 !important;
+}
+
+.highlight-btn:hover {
+    background: #ffe033 !important;
+    color: #000 !important;
+    box-shadow: 0 0 15px #ffe033 !important;
+}

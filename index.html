@@ -24,13 +24,13 @@
                 <span id="player-level" class="hud-value">1</span>
             </div>
             <div class="hud-item">
-                <span class="hud-label">FORTSCHRITT:</span>
+                <span class="hud-label">PROGRESS:</span>
                 <span id="player-xp" class="hud-value">0%</span>
             </div>
         </div>
 
         <div id="dark-console">
-            <div class="console-line system-msg">> System initialisiert. Bereit für Welle 1...</div>
+            <div class="console-line system-msg">> System initialized. Ready for Wave 1...</div>
         </div>
     </div>
 
@@ -54,55 +54,55 @@
 
     <!-- Settings Overlay -->
     <div id="settings-overlay" class="overlay-card hidden sub-menu-card">
-        <h2>Einstellungen</h2>
+        <h2>Settings</h2>
         <div class="settings-content">
             <div class="setting-row">
-                <label for="setting-difficulty">Schwierigkeit:</label>
+                <label for="setting-difficulty">Difficulty:</label>
                 <select id="setting-difficulty" class="menu-input">
                     <option value="normal">Normal</option>
-                    <option value="hard">Schwer (Mehr Monster)</option>
-                    <option value="impossible">Apokalyptisch</option>
+                    <option value="hard">Hard (More Monsters)</option>
+                    <option value="impossible">Apocalyptic</option>
                 </select>
             </div>
             <div class="setting-row">
-                <label for="setting-sound">Musik & Sound:</label>
+                <label for="setting-sound">Music & Sound:</label>
                 <input type="checkbox" id="setting-sound" checked>
             </div>
         </div>
-        <button id="btn-settings-close" class="upgrade-btn close-btn">Fertig</button>
+        <button id="btn-settings-close" class="upgrade-btn close-btn">Close</button>
     </div>
 
     <!-- Help Overlay -->
     <div id="help-overlay" class="overlay-card hidden sub-menu-card">
-        <h2>Spielanleitung</h2>
+        <h2>How to Play</h2>
         <div class="help-content">
-            <p><strong>Steuerung:</strong> <span>WASD</span> oder <span>Pfeiltasten</span> zum Bewegen.</p>
-            <p><strong>Angriff:</strong> <span>Leertaste (Space)</span> zum Schlagen mit dem Gürtel.</p>
-            <p><strong>Zusatz:</strong> Blaue Tränke geben dir Schilde zum Blocken von Schaden.</p>
+            <p><strong>Controls:</strong> <span>WASD</span> or <span>Arrow Keys</span> to move.</p>
+            <p><strong>Attack:</strong> <span>Spacebar</span> to slash with the belt.</p>
+            <p><strong>Bonus:</strong> Blue potions give you shields to absorb damage.</p>
         </div>
-        <button id="btn-help-close" class="upgrade-btn close-btn">Verstanden</button>
+        <button id="btn-help-close" class="upgrade-btn close-btn">Got it</button>
     </div>
 
     <!-- Oliver Overlay -->
     <div id="oliver-overlay" class="overlay-card hidden sub-menu-card">
-        <h2>Oliver Modus 👑</h2>
+        <h2>Oliver Mode 👑</h2>
         <div class="oliver-content">
-            <p>Der legendäre Oliver-Modus wurde freigeschaltet!</p>
+            <p>The legendary Oliver Mode has been unlocked!</p>
             <ul>
-                <li>✨ Golden leuchtender LingLing</li>
-                <li>🛡️ Start mit +30% Schild</li>
-                <li>⚡ +20% erhöhtes Lauftempo</li>
+                <li>✨ Golden glowing LingLing</li>
+                <li>🛡️ Start with +30% Shield</li>
+                <li>⚡ +20% increased speed</li>
             </ul>
         </div>
-        <button id="btn-oliver-close" class="upgrade-btn close-btn highlight-btn">Oliver aktivieren</button>
+        <button id="btn-oliver-close" class="upgrade-btn close-btn highlight-btn">Activate Oliver</button>
     </div>
 
     <div id="upgrade-screen" class="overlay-card hidden">
-        <h2>Welle geschafft! Wähle eine Evolution:</h2>
+        <h2>Wave cleared! Choose an Evolution:</h2>
         <div class="upgrade-buttons">
-            <button id="btn-dmg" class="upgrade-btn">💥 +25% Schaden (Gürtel)</button>
-            <button id="btn-speed" class="upgrade-btn">⚡ +15% Angriffsgeschwindigkeit</button>
-            <button id="btn-mspeed" class="upgrade-btn">👟 +10% Lauftempo (LingLing)</button>
+            <button id="btn-dmg" class="upgrade-btn">💥 +25% Damage (Belt)</button>
+            <button id="btn-speed" class="upgrade-btn">⚡ +15% Attack Speed</button>
+            <button id="btn-mspeed" class="upgrade-btn">👟 +10% Movement Speed</button>
         </div>
     </div>
 
@@ -113,12 +113,12 @@
     </div>
 
     <div id="stats-screen" class="overlay-card hidden">
-        <h2>Welle abgeschlossen!</h2>
+        <h2>Wave Completed!</h2>
         <div class="stats-summary">
-            <div>Erledigte Monster: <span id="stat-kills">0</span></div>
-            <div>Benötigte Zeit: <span id="stat-time">0</span> Sekunden</div>
+            <div>Monsters Defeated: <span id="stat-kills">0</span></div>
+            <div>Time Taken: <span id="stat-time">0</span> seconds</div>
         </div>
-        <button id="btn-next-wave" class="upgrade-btn" style="margin-top: 20px;">Nächste Welle starten ⚔️</button>
+        <button id="btn-next-wave" class="upgrade-btn" style="margin-top: 20px;">Start Next Wave ⚔️</button>
     </div>
 
     <script type="module" src="src/game.js"></script>

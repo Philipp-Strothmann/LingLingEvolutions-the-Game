@@ -69,7 +69,7 @@ window.addEventListener('keydown', (e) => {
     keys[e.key.toLowerCase()] = true;
     if ((e.key === ' ' || e.code === 'Space') && !isPaused) {
         const currentTime = performance.now();
-        const belt = player.weapons.find(w => w.name === 'Gürtel');
+        const belt = player.weapons.find(w => w.name === 'Belt');
         if (belt && belt.canAttack(currentTime)) {
             belt.attack(player, monsters, currentTime);
         }
@@ -98,7 +98,7 @@ const bindClick = (id, fn) => {
     const el = document.getElementById(id);
     if (el) {
         el.addEventListener('click', (e) => {
-            logToConsole(`Signal [${id}] verarbeitet.`, "system-msg");
+            logToConsole(`Signal [${id}] processed.`, "system-msg");
             try {
                 fn(e);
             } catch (err) {
@@ -130,7 +130,7 @@ function startWave() {
     if (upgradeScreen) upgradeScreen.classList.add('hidden');
     if (gameOverScreen) gameOverScreen.classList.add('hidden');
     
-    logToConsole(`Welle ${currentWave} gestartet! Eliminierung läuft...`, "wave-msg");
+    logToConsole(`Wave ${currentWave} started! Elimination in progress...`, "wave-msg");
     
     isPaused = false;
 }
@@ -231,7 +231,7 @@ function onMonsterDefeated(index) {
             y: defeatedMonster.y,
             radius: 12
         });
-        logToConsole("Ein blauer Trank wurde fallen gelassen!", "upgrade-msg");
+        logToConsole("A blue potion was dropped!", "upgrade-msg");
     }
 
     monsters.splice(index, 1);
@@ -240,22 +240,22 @@ function onMonsterDefeated(index) {
 
     if (Math.random() < 0.02) {
         player.pendingUpgrades += 1;
-        logToConsole("Goblin besiegt! Bonus-Evolution freigeschaltet!", "upgrade-msg");
+        logToConsole("Goblin defeated! Bonus evolution unlocked!", "upgrade-msg");
     }
     if (Math.random() < 0.001) {
         player.pendingUpgrades += 2;
-        logToConsole("🍀 JACKPOT! 2x BONUS-EVOLUTION erhalten!", "upgrade-msg");
+        logToConsole("🍀 JACKPOT! Received 2x bonus evolutions!", "upgrade-msg");
     }
 
     checkWaveEnd();
 }
 
 function applyUpgrade(type) {
-    if (type === 'dmg') logToConsole("Upgrade erworben: Gürtelschaden +25%", "system-msg");
-    if (type === 'speed') logToConsole("Upgrade erworben: Angriffsgeschwindigkeit +15%", "system-msg");
-    if (type === 'mspeed') logToConsole("Upgrade erworben: Lauftempo +10%", "system-msg");
+    if (type === 'dmg') logToConsole("Upgrade purchased: Belt Damage +25%", "system-msg");
+    if (type === 'speed') logToConsole("Upgrade purchased: Attack Speed +15%", "system-msg");
+    if (type === 'mspeed') logToConsole("Upgrade purchased: Movement Speed +10%", "system-msg");
     
-    const belt = player.weapons ? player.weapons.find(w => w.name === 'Gürtel') : null;
+    const belt = player.weapons ? player.weapons.find(w => w.name === 'Belt') : null;
     if (type === 'dmg' && belt) {
         belt.damage = Math.round(belt.damage * 1.25);
         belt.level++;
@@ -351,7 +351,7 @@ function gameLoop() {
             const dist = Math.hypot(player.x - potion.x, player.y - potion.y);
             if (dist <= player.radius + potion.radius) {
                 player.shield = Math.min(100, (player.shield || 0) + 10);
-                logToConsole("Blauer Trank eingesammelt! Schild +10% Schadensminimierung.", "upgrade-msg");
+                logToConsole("Blue potion collected! Shield +10% damage mitigation.", "upgrade-msg");
                 potions.splice(i, 1);
             }
         }
@@ -372,7 +372,7 @@ function gameLoop() {
             updateHealthUI();
 
             if (attackResult.isCrit) {
-                logToConsole("KRITISCHER TREFFER von Goblin! -40% HP erhalten!", "crit-msg");   
+                logToConsole("CRITICAL HIT by goblin! -40% HP taken!", "crit-msg");   
             }
 
             if (player.health <= 0) {
@@ -476,7 +476,7 @@ function setupStartMenu() {
             if (isOliverMode) {
                 player.speed = 4.8; // +20% speed
                 player.shield = 30; // +30% starting shield
-                logToConsole("Oliver Modus AKTIV! Krone aufgesetzt und Werte erhöht.", "upgrade-msg");
+                logToConsole("Oliver Mode ACTIVE! Crown equipped and stats boosted.", "upgrade-msg");
             } else {
                 player.speed = 4;
                 player.shield = 0;
@@ -545,7 +545,7 @@ function setupStartMenu() {
             }
             
             oliverOverlay.classList.add('hidden');
-            logToConsole("Oliver Modus freigeschaltet!", "system-msg");
+            logToConsole("Oliver Mode unlocked!", "system-msg");
         });
     }
 

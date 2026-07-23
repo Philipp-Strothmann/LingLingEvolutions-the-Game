@@ -13,7 +13,7 @@ export class Player {
         this.pendingUpgrades = 0;
 
         this.weapons = [];
-        this.weapons.push(new Weapon('Gürtel', 'melee', 20, 400)); // Cooldown auf 400ms für geschmeidiges Spawmen der Schläge
+        this.weapons.push(new Weapon('Belt', 'melee', 20, 400)); // 400ms cooldown for smooth hits
 
         this.activeEffects = [];
 
@@ -58,24 +58,24 @@ update(keys, map) {
 
 // In src/player.js die draw-Methode ersetzen:
 draw(ctx) {
-    // 1. Die aktiven Angriffs-Effekte (Gürtelschlag) zeichnen
+    // 1. Draw the active attack effects (Belt slash)
     this.activeEffects.forEach(eff => {
         if (eff.type === 'belt_slash') {
             ctx.save();
             ctx.translate(eff.x, eff.y);
             
-            // Wir zeichnen einen rotierenden Ledergürtel
+            // Draw a rotating leather belt
             let alpha = eff.duration / eff.maxDuration;
             
-            // Gürtel-Riemen (Braunes Leder)
+            // Belt strap (Brown leather)
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(139, 69, 19, ${alpha})`; // Sattelbraun
+            ctx.strokeStyle = `rgba(139, 69, 19, ${alpha})`; // Saddle brown
             ctx.lineWidth = 8;
             ctx.arc(0, 0, eff.radius, 0, Math.PI * 2);
             ctx.stroke();
             ctx.closePath();
 
-            // Gürtel-Naht (Dunkelbraun/Schwarz für Textur)
+            // Belt seam (Dark brown/Black for texture)
             ctx.beginPath();
             ctx.strokeStyle = `rgba(80, 40, 10, ${alpha})`;
             ctx.lineWidth = 1.5;
@@ -85,12 +85,12 @@ draw(ctx) {
             ctx.closePath();
             ctx.setLineDash([]); // Reset Line-Dash
 
-            // Die goldene Gürtelschnalle am Ende des Radius
+            // Golden belt buckle at the end of the radius
             ctx.beginPath();
             ctx.fillStyle = `rgba(255, 215, 0, ${alpha})`; // Gold
             ctx.strokeStyle = `rgba(200, 150, 0, ${alpha})`;
             ctx.lineWidth = 2;
-            // Wir platzieren die Schnalle an einer festen Position auf dem Kreis
+            // Position buckle at a fixed position on the circle
             const buckleX = Math.cos(0) * eff.radius;
             const buckleY = Math.sin(0) * eff.radius;
             ctx.rect(buckleX - 6, buckleY - 8, 12, 16);
@@ -98,7 +98,7 @@ draw(ctx) {
             ctx.stroke();
             ctx.closePath();
 
-            // Der Dorn der Gürtelschnalle
+            // Buckle prong
             ctx.beginPath();
             ctx.strokeStyle = `rgba(50, 50, 50, ${alpha})`;
             ctx.lineWidth = 3;
@@ -243,14 +243,14 @@ draw(ctx) {
 
     ctx.restore();
 
-    // 3. Schwebende Lebensleiste und Schildleiste über dem Spieler
+    // 3. Floating health and shield bar above the player
     const barWidth = 40;
     const barHeight = 5;
     const barX = this.x - barWidth / 2;
     const hpBarY = this.y - this.radius - 20; 
     const shieldBarY = hpBarY - 7; 
 
-    // Spielername über der Leiste anzeigen
+    // Display player name above the bar
     if (this.name) {
         ctx.save();
         ctx.fillStyle = this.isOliver ? '#ffd700' : '#ffffff';
@@ -262,34 +262,34 @@ draw(ctx) {
         ctx.restore();
     }
 
-    // Schildleiste (oben)
-    // Hintergrund (Grau)
+    // Shield bar (top)
+    // Background (gray)
     ctx.fillStyle = '#444';
     ctx.fillRect(barX, shieldBarY, barWidth, barHeight);
-    // Vordergrund (Blau, skaliert nach Schild-Prozent)
+    // Foreground (blue, scaled by shield percentage)
     const shieldPercent = Math.max(0, Math.min(100, this.shield || 0)) / 100;
     ctx.fillStyle = '#0066ff';
     ctx.fillRect(barX, shieldBarY, barWidth * shieldPercent, barHeight);
 
-    // Lebensleiste (unten)
-    // Hintergrund (Grau)
+    // Health bar (bottom)
+    // Background (gray)
     ctx.fillStyle = '#444';
     ctx.fillRect(barX, hpBarY, barWidth, barHeight);
-    // Vordergrund (Rot, skaliert nach HP-Prozent)
+    // Foreground (red, scaled by HP percentage)
     const hpPercent = Math.max(0, this.health / this.maxHealth);
-    ctx.fillStyle = '#ff3333'; // Rot
+    ctx.fillStyle = '#ff3333'; // Red
     ctx.fillRect(barX, hpBarY, barWidth * hpPercent, barHeight);
 }
 
     takeDamage(amount) {
-        // Schild absorbiert/reduziert den Schaden
+        // Shield absorbs/reduces damage
         const mitigation = (this.shield || 0) / 100;
         const reducedDamage = amount * (1 - mitigation);
         
         this.health -= reducedDamage;
         if (this.health < 0) this.health = 0;
         
-        // Jedes Mal, wenn der Spieler Schaden erleidet, wird der Schild um 10% verbraucht (eine Trankladung)
+        // Every time the player takes damage, the shield is consumed by 10% (one potion charge)
         if (this.shield > 0) {
             this.shield = Math.max(0, this.shield - 10);
         }

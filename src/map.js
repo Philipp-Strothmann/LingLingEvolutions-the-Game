@@ -59,7 +59,7 @@ export class ApocalypseMap {
             }
         }
         
-        console.log(`Stadt generiert: ${this.buildings.length} Hochhäuser erbaut.`);
+        console.log(`City generated: ${this.buildings.length} skyscrapers built.`);
     }
 
     draw(ctx, player) {
